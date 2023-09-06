@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dataset</title>
+</head>
+
+<body bgcolor=#F0FFFF>
+    {% extends "material/base.html" %}
+    {% block content %}
+    <div class="showcase container blue">
+        <div class="row">
+            <div class="col 12 m10 offset-ml center">
+                <h2>Iris Species Predictor </h2>
+                <a href="{{url_for('index')}}"
+                    class="btn btn-small blue black-text waves-effect waves-dark lighten-3">Back</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {{ df_view.to_html(classes="table striped",na_rep="-") | safe}}
+    </div>
+    {% endblock %}
+    {% block scripts %}
+    {{ super() }}
+    {% endblock %}
+
+</body>
+
+</html>
