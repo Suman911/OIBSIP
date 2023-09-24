@@ -6,6 +6,7 @@ import pickle
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
 
+# Initializing scaler and label_encoder
 df=pd.read_csv('Iris.csv')
 label_encoder = LabelEncoder().fit(df['Species'])
 scaler = StandardScaler().fit(df.drop(['Id', 'Species'], axis=1).to_numpy())
@@ -69,4 +70,4 @@ def analyze():
 
 
 if __name__ == '__main__':
-	app.run(port=500,debug=True)
+	app.run(host="0.0.0.0",port=500,debug=True)

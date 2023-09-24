@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Price Predictor</title>
+</head>
+
+<body bgcolor=#F0FFFF>
+  {% extends "material/base.html" %}
+  {% block content %}
+  <div class="showcase container blue">
+    <div class="row">
+      <div class="col 12 m10 offset-ml center">
+        <h2>Car Price Predictor </h2>
+        <a href="{{url_for('index')}}" class="btn btn-small blue black-text waves-effect waves-dark lighten-3">Reset</a>
+      </div>
+    </div>
+  </div>
+  <section class="section section-signup">
+    <div class="container">
+      <form action="{{ url_for('analyze')}}" method="POST">
+        <div class="row">
+          <div class="col s12 m4">
+            <div class="card-panel grey lighten-4 grey-text text-darken-4 z-depth-0">
+              <div class="input-field">
+                <p class="text-field">
+                  <input type="text" name="wheelbase" value="{{ param["wheelbase"] }}">
+                  <label for="wheelbase">Wheel Base ( 80 - 130 )</label>
+              </div>
+              <div class="input-field">
+                <p class="text-field">
+                  <input type="text" name="carlength" value="{{ param["carlength"] }}">
+                  <label for="carlength">Car Length ( 140 - 210 )</label>
+              </div>
+              <div class="input-field">
+                <p class="text-field">
+                  <input type="text" name="carwidth" value="{{ param["carwidth"] }}">
+                  <label for="carwidth">Car Width ( 60 - 70 )</label>
+              </div>
+              <div class="input-field">
+                <p class="text-field">
+                  <input type="text" name="curbweight" value="{{ param["curbweight"] }}">
+                  <label for="curbweight">Curb Weight ( 1480 - 4070 )</label>
+              </div>
+              <div class="input-field">
+                <p class="text-field">
+                  <input type="text" name="enginesize" value="{{ param["enginesize"] }}">
+                  <label for="enginesize">Engine Size ( 60 - 330 )</label>
+              </div>
+              <div class="input-field">
+                <select style="z-index:2;" name="CarsRange">
+                  <option value="Budget" {% if param["CarsRange"]=="Budget" %} selected {% endif %}>Budget</option>
+                  <option value="Medium" {% if param["CarsRange"]=="Medium" %} selected {% endif %}>Medium</option>
+                  <option value="Highend" {% if param["CarsRange"]=="Highend" %} selected {% endif %}>Highend</option>
+                </select>
+                <label for="CarsRange">Cars Price Range</label>
+              </div>
+              <div class="input-field">
+                <select style="z-index:2;" name="fueltype">
+                  <option value="gas" {% if param["fueltype"]=="gas" %} selected {% endif %}>Gas</option>
+                  <option value="diesel" {% if param["fueltype"]=="diesel" %} selected {% endif %}>Diesel</option>
+                </select>
+                <label for="fueltype">Fuel Type</label>
+              </div>
+              <div class="input-field">
+                <select style="z-index:2;" name="aspiration">
+                  <option value="std" {% if param["aspiration"]=="std" %} selected {% endif %}>Std</option>
+                  <option value="turbo" {% if param["aspiration"]=="turbo" %} selected {% endif %}>Turbo</option>
+                </select>
+                <label for="aspiration">Aspiration</label>
+              </div>
+              <div class="input-field">
+                <select style="z-index:2;" name="drivewheel">
+                  <option value="4wd" {% if param["drivewheel"]=="4wd" %} selected {% endif %}>4wd</option>
+                  <option value="fwd" {% if param["drivewheel"]=="fwd" %} selected {% endif %}>Fwd</option>
+                  <option value="rwd" {% if param["drivewheel"]=="rwd" %} selected {% endif %}>Rwd</option>
+                </select>
+                <label for="drivewheel">Drive Wheel</label>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 m4">
+            <div class="card-panel grey lighten-4 grey-text text-darken-4 z-depth-0">
+              <div class="input-field">
+                <p class="text-field">
+                  <input type="text" name="boreratio" value="{{ param["boreratio"] }}">
+                  <label for="boreratio">Bore Ratio ( 2 - 4 )</label>
+              </div>
+              <div class="input-field">
+                <p class="text-field">
+                  <input type="text" name="horsepower" value="{{ param["horsepower"] }}">
+                  <label for="horsepower">Horse Power ( 45 - 290 )</label>
+              </div>
+              <div class="input-field">
+                <p class="text-field">
+                  <input type="text" name="citympg" value="{{ param["citympg"] }}">
+                  <label for="citympg">City mpg ( 13 - 50 )</label>
+              </div>
+              <div class="input-field">
+                <p class="text-field">
+                  <input type="text" name="highwaympg" value="{{ param["highwaympg"] }}">
+                  <label for="highwaympg">High Way mpg ( 15 - 60 )</label>
+              </div>
+              <div class="input-field">
+                <select style="z-index:2;" name="enginetype">
+                  <option value="dohc" {% if param["enginetype"]=="dohc" %} selected {% endif %}>Dohc</option>
+                  <option value="dohcv" {% if param["enginetype"]=="dohcv" %} selected {% endif %}>Dohcv</option>
+                  <option value="l" {% if param["enginetype"]=="l" %} selected {% endif %}>L</option>
+                  <option value="ohc" {% if param["enginetype"]=="ohc" %} selected {% endif %}>Ohc</option>
+                  <option value="ohcf" {% if param["enginetype"]=="ohcf" %} selected {% endif %}>Ohcf</option>
+                  <option value="ohcv" {% if param["enginetype"]=="ohcv" %} selected {% endif %}>Ohcv</option>
+                  <option value="rotor" {% if param["enginetype"]=="rotor" %} selected {% endif %}>Rotor</option>
+                </select>
+                <label for="enginetype">Engine Type</label>
+              </div>
+              <div class="input-field">
+                <select style="z-index:2;" name="cylindernumber">
+                  <option value="two" {% if param["cylindernumber"]=="two" %} selected {% endif %}>Two</option>
+                  <option value="three" {% if param["cylindernumber"]=="three" %} selected {% endif %}>Three</option>
+                  <option value="four" {% if param["cylindernumber"]=="four" %} selected {% endif %}>Four</option>
+                  <option value="five" {% if param["cylindernumber"]=="five" %} selected {% endif %}>Five</option>
+                  <option value="six" {% if param["cylindernumber"]=="six" %} selected {% endif %}>Six</option>
+                  <option value="eight" {% if param["cylindernumber"]=="eight" %} selected {% endif %}>Eight</option>
+                  <option value="twelve" {% if param["cylindernumber"]=="twelve" %} selected {% endif %}>Twelve</option>
+                </select>
+                <label for="cylindernumber">Cylinder Number</label>
+              </div>
+              <div class="input-field">
+                <select style="z-index:2;" name="fuelsystem">
+                  <option value="1bbl" {% if param["fuelsystem"]=="1bbl" %} selected {% endif %}>1bbl</option>
+                  <option value="2bbl" {% if param["fuelsystem"]=="2bbl" %} selected {% endif %}>2bbl</option>
+                  <option value="4bbl" {% if param["fuelsystem"]=="4bbl" %} selected {% endif %}>4bbl</option>
+                  <option value="idi" {% if param["fuelsystem"]=="idi" %} selected {% endif %}>idi</option>
+                  <option value="mfi" {% if param["fuelsystem"]=="mfi" %} selected {% endif %}>mfi</option>
+                  <option value="mpfi" {% if param["fuelsystem"]=="mpfi" %} selected {% endif %}>mpfi</option>
+                  <option value="spdi" {% if param["fuelsystem"]=="spdi" %} selected {% endif %}>spdi</option>
+                  <option value="spfi" {% if param["fuelsystem"]=="spfi" %} selected {% endif %}>spfi</option>
+                </select>
+                <label for="fuelsystem">Fuel System</label>
+              </div>
+              <div class="input-field">
+                <select style="z-index:2;" name="doornumber">
+                  <option value="two" {% if param["doornumber"]=="two" %} selected {% endif %}>Two</option>
+                  <option value="four" {% if param["doornumber"]=="four" %} selected {% endif %}>Four</option>
+                </select>
+                <label for="doornumber">Door Number</label>
+              </div>
+              <div class="input-field">
+                <select style="z-index:2;" name="carbody">
+                  <option value="convertible" {% if param["carbody"]=="convertible" %} selected {% endif %}>convertible
+                  </option>
+                  <option value="hardtop" {% if param["carbody"]=="hardtop" %} selected {% endif %}>Hardtop</option>
+                  <option value="hatchback" {% if param["carbody"]=="hatchback" %} selected {% endif %}>Hatchback
+                  </option>
+                  <option value="sedan" {% if param["carbody"]=="sedan" %} selected {% endif %}>Sedan</option>
+                  <option value="wagon" {% if param["carbody"]=="wagon" %} selected {% endif %}>Wagon</option>
+                </select>
+                <label for="carbody">Car Body</label>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 m4 offers">
+            <div class="card-panel grey lighten-4 grey-text text-darken-4 z-depth-0">
+              <br>
+              <h5>Prediction</h5>
+              <div class="collection" role="alert">
+                <p class="collection-item active blue">Price = {{ result_prediction }} </p>
+              </div>
+              <br>
+              <div class="input-field">
+                <select style="z-index:2;" id="role" name="model_choice">
+                  <option value="lreg" {% if model_selected=="lreg" %} selected {% endif %}>Linear Regression</option>
+                  <option value="dtree" {% if model_selected=="dtree" %} selected {% endif %}>Decision Tree</option>
+                  <option value="rforest" {% if model_selected=="rforest" %} selected {% endif %}>Random Forest</option>
+                  <option value="XGB" {% if model_selected=="XGB" %} selected {% endif %}>XGBoost</option>
+                  <option value="LGBM" {% if model_selected=="LGBM" %} selected {% endif %}>LGBM</option>
+                  <option value="CB" {% if model_selected=="CB" %} selected {% endif %}>Cat Boost</option>
+                  <option value="avg" {% if model_selected=="avg" %} selected {% endif %}>Average of all</option>
+                </select>
+                <label for="role">Select ML Algorithm</label>
+              </div>
+              <button type="submit" class="btn blue black-text">Predict</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+  </section>
+
+
+  {% endblock%}
+
+  {% block scripts %}
+  {{super()}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+  <!-- <script type="text/javascript">
+           document.addEventListener('DOMContentLoaded', function() {
+          var elems = document.querySelectorAll('select');
+          var instances = M.FormSelect.init(elems, options);
+        });
+      </script> -->
+
+  <script>
+    // Or with jQuery
+    $(document).ready(function () {
+      $('select').formSelect();
+    });
+  </script>
+
+  {% endblock %}
+</body>
+
+</html>

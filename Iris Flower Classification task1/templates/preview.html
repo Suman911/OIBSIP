@@ -19,7 +19,6 @@
             </div>
         </div>
     </div>
-
     <div class="container">
         {{ df_view.to_html(classes="table striped",na_rep="-") | safe}}
     </div>
@@ -27,7 +26,6 @@
     {% block scripts %}
     {{ super() }}
     {% endblock %}
-
 </body>
 
 </html>
