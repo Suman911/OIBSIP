@@ -2,3 +2,4 @@ OIBSIP
 *.mp4
 *.pkl
 catboost_info
+glove.6B.50d.txt
